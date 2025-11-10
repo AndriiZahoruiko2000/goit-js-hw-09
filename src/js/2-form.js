@@ -16,17 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
     form.elements.message.value = saved.message || '';
     formData = saved;
   }
+
+  form.addEventListener('submit', handleFormSubmit);
+  form.addEventListener('input', handleFormInput);
 });
 
 // =================================================
 
-form.addEventListener('submit', e => {
+function handleFormSubmit(e) {
   e.preventDefault();
 
-  formData = {
-    email: form.elements.email.value,
-    message: form.elements.message.value,
-  };
+  formData.email = form.elements.email.value;
+  formData.message = form.elements.message.value;
 
   if (
     form.elements.email.value.trim() === '' ||
@@ -39,19 +40,18 @@ form.addEventListener('submit', e => {
   console.log('Sended', formData);
 
   localStorage.removeItem(STORAGE_KEY);
+  formData.email = '';
+  formData.message = '';
   form.reset();
-});
+}
 
 // =================================================
 
-form.addEventListener('input', e => {
-  formData = {
-    email: form.elements.email.value,
-    message: form.elements.message.value,
-  };
-
+function handleFormInput(e) {
+  formData.email = form.elements.email.value;
+  formData.message = form.elements.message.value;
   saveToLS(STORAGE_KEY, formData);
-});
+}
 
 // =================================================
 
